@@ -1,4 +1,4 @@
-name: Test and Deploy Project
+name: Test Project
 on:
   pull_request:
     types:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Get Code
@@ -21,11 +21,5 @@ jobs:
       - name: Set Up Gradle
         uses: gradle/actions/setup-gradle@v5
 
-      - name: Build Project
-        run: ./api/gradlew -p api clean build -x test
-
-      - name: Mock Deploy
-        run: |
-          echo 'Simulating deploy into external host provider for training CI/CD using GitHub Actions'
-          for i in $(seq 10 10 100); do echo $i%; done
-          echo 'Mock deploy is done'
+      - name: Run Test
+        run: ./api/gradlew -p api clean test
